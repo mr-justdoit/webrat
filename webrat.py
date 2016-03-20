@@ -23,11 +23,12 @@ def get_internal_links(bsObj, includeUrl):
 
     for link in bsObj.findAll("a", href=reurl):
         if link.attrs['href'] is not None:
-            if link.attrs['href'] not in internalLinks:
-                if link.attrs['href'].startswith("/"):
-                    internalLinks.append(includeUrl+link.attrs['href'])
-                else:
-                    internalLinks.append(link.attrs['href'])
+            if link.attrs['href'].startswith("/"):
+                the_link = includeUrl+link.attrs['href']
+            else:
+                the_link = link.attrs['href']
+            if the_link not in internalLinks and the_link not in pages:
+                internalLinks.append(the_link)
 
 def get_external_links(bsObj, excludeUrl):
     global externalLinks
@@ -35,7 +36,7 @@ def get_external_links(bsObj, excludeUrl):
     
     for link in bsObj.findAll("a", href=reurl):
         if link.attrs['href'] is not None:
-            if link.attrs['href'] not in externalLinks:
+            if link.attrs['href'] not in externalLinks and link.attrs['href'] not in pages:
                 externalLinks.append(link.attrs['href'])
 
     
@@ -69,9 +70,11 @@ def next_page():
         
     return page
 
-page = "http://oreilly.com"
+page = "http://kcg.edu"
 externalLinks.append(page)
 internalLinks.append(page)
+print(externalLinks)
+print(internalLinks)
 
 while(len(externalLinks) != 0 and len(internalLinks) != 0):
     try:
@@ -81,6 +84,6 @@ while(len(externalLinks) != 0 and len(internalLinks) != 0):
         pass
     except URLError:
         pass
-    
+
     page = next_page()
 
