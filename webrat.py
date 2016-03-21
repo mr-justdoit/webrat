@@ -7,9 +7,9 @@ import re
 import datetime
 import random
 
-internalLinks = []
-externalLinks = []
-pages = []
+internalLinks = set()
+externalLinks = set()
+pages = set()
 random.seed(datetime.datetime.now())
 
 
@@ -27,8 +27,8 @@ def get_internal_links(bsObj, includeUrl):
                 the_link = includeUrl+link.attrs['href']
             else:
                 the_link = link.attrs['href']
-            if the_link not in internalLinks and the_link not in pages:
-                internalLinks.append(the_link)
+            if the_link not in pages:
+                internalLinks.add(the_link)
 
 def get_external_links(bsObj, excludeUrl):
     global externalLinks
@@ -36,8 +36,8 @@ def get_external_links(bsObj, excludeUrl):
     
     for link in bsObj.findAll("a", href=reurl):
         if link.attrs['href'] is not None:
-            if link.attrs['href'] not in externalLinks and link.attrs['href'] not in pages:
-                externalLinks.append(link.attrs['href'])
+            if link.attrs['href'] not in pages:
+                externalLinks.add(link.attrs['href'])
 
     
 
@@ -51,30 +51,28 @@ def get_links(startingPage):
     links = get_external_links(bsObj, urlparse(startingPage).netloc)
     if links is not None:
         for link in links:
-            if link not in externalLinks and link not in pages:
-                externalLinks.append(link)
+            if link not in pages:
+                externalLinks.add(link)
 
     links = get_internal_links(bsObj, startingPage)
     if links is not None:        
         for link in links:
-            if link not in externalLinks and link not in pages:
-                internalLinks.append(link)
+            if link not in pages:
+                internalLinks.add(link)
 
 def next_page():
     if len(externalLinks) != 0:
         page = externalLinks.pop()
-        pages.append(page)
+        pages.add(page)
     elif len(internalLinks) != 0:
         page = internalLinks.pop()
-        pages.append(page)
+        pages.add(page)
         
     return page
 
 page = "http://kcg.edu"
-externalLinks.append(page)
-internalLinks.append(page)
-print(externalLinks)
-print(internalLinks)
+externalLinks.add(page)
+internalLinks.add(page)
 
 while(len(externalLinks) != 0 and len(internalLinks) != 0):
     try:
@@ -86,4 +84,3 @@ while(len(externalLinks) != 0 and len(internalLinks) != 0):
         pass
 
     page = next_page()
-
