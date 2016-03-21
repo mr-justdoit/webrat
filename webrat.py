@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from urllib.error import URLError
 from urllib.parse import urlparse
+from urllib.parse import quote_plus as q
 from bs4 import BeautifulSoup
 import re
 import datetime
@@ -22,24 +23,26 @@ def get_internal_links(bsObj, includeUrl):
     reurl = re.compile("^(\/|.*" + includeUrl + ")")
 
     for link in bsObj.findAll("a", href=reurl):
-        if link.attrs['href'] is not None:
-            if link.attrs['href'].startswith("/"):
-                the_link = includeUrl+link.attrs['href']
+        url = q(link.attrs['href'], safe="/:")
+        if url is not None:
+            if url.startswith("/"):
+                the_link = includeUrl + url
             else:
-                the_link = link.attrs['href']
+                the_link = url
             if the_link not in pages:
                 internalLinks.add(the_link)
 
+
 def get_external_links(bsObj, excludeUrl):
     global externalLinks
-    reurl = re.compile("^(http|www)((?!"+excludeUrl+").)*$")
-    
-    for link in bsObj.findAll("a", href=reurl):
-        if link.attrs['href'] is not None:
-            if link.attrs['href'] not in pages:
-                externalLinks.add(link.attrs['href'])
+    reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
 
-    
+    for link in bsObj.findAll("a", href=reurl):
+        url = q(link.attrs['href'], safe="/:")
+        if url is not None:
+            if url not in pages:
+                externalLinks.add(url)
+
 
 def get_links(startingPage):
     html = urlopen(startingPage)
@@ -47,7 +50,6 @@ def get_links(startingPage):
     global externalLinks
     global internalLinks
 
-    
     links = get_external_links(bsObj, urlparse(startingPage).netloc)
     if links is not None:
         for link in links:
@@ -55,10 +57,11 @@ def get_links(startingPage):
                 externalLinks.add(link)
 
     links = get_internal_links(bsObj, startingPage)
-    if links is not None:        
+    if links is not None:
         for link in links:
             if link not in pages:
                 internalLinks.add(link)
+
 
 def next_page():
     if len(externalLinks) != 0:
@@ -67,14 +70,15 @@ def next_page():
     elif len(internalLinks) != 0:
         page = internalLinks.pop()
         pages.add(page)
-        
+
     return page
+
 
 page = "http://kcg.edu"
 externalLinks.add(page)
 internalLinks.add(page)
 
-while(len(externalLinks) != 0 and len(internalLinks) != 0):
+while (len(externalLinks) != 0 and len(internalLinks) != 0):
     try:
         get_links(page)
         print(page)
