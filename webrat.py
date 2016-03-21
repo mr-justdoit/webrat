@@ -7,7 +7,10 @@ from bs4 import BeautifulSoup
 import re
 import datetime
 import random
-
+import socks
+import socket
+import time
+import sys
 
 class Crawler:
     def __init__(self, page):
@@ -80,7 +83,12 @@ class Crawler:
                 pass
             except URLError:
                 pass
+            except Exception:
+                pass
+# connect TOR
+socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "localhost", 9150)
+socket.socket = socks.socksocket
 
-
+# test crawler
 crawler = Crawler("http://kcg.edu")
 crawler.run()
