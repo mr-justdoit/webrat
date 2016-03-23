@@ -55,7 +55,7 @@ class Crawler:
                                  "Gecko/20100101 Firefox/38.0",
                    "Accept": "text/html,application/xhtml+xml,application/xml;"
                              "q=0.9,image/webp,*/*;q=0.8"}
-        html = session.get(self.current_page, headers=headers)
+        html = session.get(self.current_page, headers=headers, timeout=30)
         self.bsObj = BeautifulSoup(html.text, "html.parser")
 
         links = self.get_external_links(urlparse(self.current_page).netloc)
@@ -79,6 +79,29 @@ class Crawler:
             self.pages.add(self.current_page)
         return self.current_page
 
+    def insert_data(self):
+        c = self.conn.cursor()
+        data = (self.current_page,
+                self.bsObj.head.title.get_text(),
+                str(self.bsObj.body))
+        c.execute(
+            'INSERT INTO web(url, title, body) VALUES (?,?,?)',
+            data)
+        self.conn.commit()
+        c.close()
+
+    def update_data(self):
+        c = self.conn.cursor()
+        c.execute(
+            "UPDATE web SET title=?,body=? WHERE url=?",
+            (self.bsObj.head.title.get_text(),
+             str(self.bsObj.body),
+             self.current_page))
+        self.conn.commit()
+        c.close()
+
+    
+        
     def run(self):
         self.externalLinks.add(self.current_page)
         self.internalLinks.add(self.current_page)
@@ -86,24 +109,20 @@ class Crawler:
             try:
                 print(self.current_page)
                 self.get_links()
-                c = self.conn.cursor()
                 try:
-                    data = (self.current_page,
-                            self.bsObj.head.title.get_text(),
-                            str(self.bsObj.body))
-                    c.execute(
-                        'INSERT INTO web(url, title, body) VALUES (?,?,?)',
-                        data)
-                    self.conn.commit()
+                    self.insert_data()
                 except Exception as e:
-                    c.close()
-                    self.conn = sqlite3.connect('web.db')
-                    print(e)
+                    if 'UNIQUE' in str(e):
+                        self.update_data()
+                    else:
+                        self.conn = sqlite3.connect('web.db')
+                        print(e)
             except HTTPError:
                 pass
             except URLError:
                 pass
-            except Exception:
+            except Exception as e:
+                print(e)
                 pass
 # connect TOR
 socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
