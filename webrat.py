@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# coding: utf-8
 from urllib.error import HTTPError
 from urllib.error import URLError
 from urllib.parse import urlparse
@@ -10,6 +12,8 @@ import socks
 import socket
 import requests
 import sqlite3
+import sys
+import getopt
 
 
 class Crawler:
@@ -107,17 +111,42 @@ class Crawler:
             except Exception as e:
                 print(e)
                 pass
-# connect TOR
-socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
-socket.socket = socks.socksocket
 
 
-def getaddrinfo(*args):
-    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
+def main():
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'u:p:h')
+    except getopt.GetoptError as err:
+        print(str(err))
+        # usage()
+        sys.exit(2)
+
+    url = "http://www.google.com"
+    proxy = ["localhost", 9150]
+    global socket
+
+    for o, a in opts:
+        if o == "-u":
+            url = a
+        if o == "-p":
+            if a == "tor":
+                # connect TOR
+                socks.set_default_proxy(socks.SOCKS5, proxy[0], proxy[1])
+                socket.socket = socks.socksocket
+                
+                def getaddrinfo(*args):
+                    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '',
+                             (args[0], args[1]))]
+
+                socket.getaddrinfo = getaddrinfo
+
+    Crawler(url).run()
 
 
-socket.getaddrinfo = getaddrinfo
+if __name__ == "__main__":
+    main()
 
 # test crawling
-crawler = Crawler("http://skunksworkedp2cg.onion")
-crawler.run()
+# crawler = Crawler("http://skunksworkedp2cg.onion")
+# crawler.run()
