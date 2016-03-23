@@ -31,25 +31,22 @@ class Crawler:
 
         for link in self.bsObj.findAll("a", href=reurl):
             url = q(link.attrs['href'], safe="/:")
-            if url is not None:
-                if url.startswith("/"):
-                    the_link = includeUrl + url
-                else:
-                    the_link = url
-                if link not in self.pages:
-                    self.internalLinks.add(the_link)
+            if url.startswith("/"):
+                the_link = includeUrl + url
+            else:
+                the_link = url
+            if the_link not in self.pages:
+                self.internalLinks.add(the_link)
 
     def get_external_links(self, excludeUrl):
         reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
 
         for link in self.bsObj.findAll("a", href=reurl):
             url = q(link.attrs['href'], safe="/:")
-            if url is not None:
-                if url not in self.pages:
-                    self.externalLinks.add(url)
+            if url not in self.pages:
+                self.externalLinks.add(url)
 
-    def get_links(self):
-        # html = urlopen(self.current_page).read()
+    def build_bsObj(self):
         session = requests.Session()
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; rv:38.0)"
                                  "Gecko/20100101 Firefox/38.0",
@@ -58,17 +55,10 @@ class Crawler:
         html = session.get(self.current_page, headers=headers, timeout=30)
         self.bsObj = BeautifulSoup(html.text, "html.parser")
 
-        links = self.get_external_links(urlparse(self.current_page).netloc)
-        if links is not None:
-            for link in links:
-                if link not in self.pages:
-                    self.externalLinks.add(link)
-
-        links = self.get_internal_links(self.current_page)
-        if links is not None:
-            for link in links:
-                if link not in self.pages:
-                    self.internalLinks.add(link)
+    def get_links(self):
+        self.build_bsObj()
+        self.get_external_links(urlparse(self.current_page).netloc)
+        self.get_internal_links(self.current_page)
 
     def next_page(self):
         if len(self.externalLinks) != 0:
@@ -81,27 +71,20 @@ class Crawler:
 
     def insert_data(self):
         c = self.conn.cursor()
-        data = (self.current_page,
-                self.bsObj.head.title.get_text(),
+        data = (self.current_page, self.bsObj.head.title.get_text(),
                 str(self.bsObj.body))
-        c.execute(
-            'INSERT INTO web(url, title, body) VALUES (?,?,?)',
-            data)
+        c.execute('INSERT INTO web(url, title, body) VALUES (?,?,?)', data)
         self.conn.commit()
         c.close()
 
     def update_data(self):
         c = self.conn.cursor()
-        c.execute(
-            "UPDATE web SET title=?,body=? WHERE url=?",
-            (self.bsObj.head.title.get_text(),
-             str(self.bsObj.body),
-             self.current_page))
+        c.execute("UPDATE web SET title=?,body=? WHERE url=?",
+                  (self.bsObj.head.title.get_text(), str(self.bsObj.body),
+                   self.current_page))
         self.conn.commit()
         c.close()
 
-    
-        
     def run(self):
         self.externalLinks.add(self.current_page)
         self.internalLinks.add(self.current_page)
@@ -135,18 +118,6 @@ def getaddrinfo(*args):
 
 socket.getaddrinfo = getaddrinfo
 
-# TEST CODES 
-# session = requests.Session()
-# headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; rv:38.0)"
-#           "Gecko/20100101 Firefox/38.0",
-#           "Accept": "text/html,application/xhtml+xml,application/xml;"
-#           "q=0.9,image/webp,*/*;q=0.8"}
-
-# html = session.get("http://skunksworkedp2cg.onion:80", headers=headers)
-# print(html.text)
-# bsObj = BeautifulSoup(html.text, "html.parser")
-
-# test crawler
-#crawler = Crawler("http://kcg.edu")
-crawler = Crawler("http://skunksworkedp2cg.onion:80")
+# test crawling
+crawler = Crawler("http://skunksworkedp2cg.onion")
 crawler.run()
