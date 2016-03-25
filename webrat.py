@@ -17,12 +17,13 @@ import getopt
 
 
 class Crawler:
-    def __init__(self, page):
+    def __init__(self, page, onion):
         self.internalLinks = set()
         self.externalLinks = set()
         self.pages = set()
         self.bsObj = None
         self.html = None
+        self.onion = onion
         self.current_page = page
         self.conn = sqlite3.connect('web.db')
         random.seed(datetime.datetime.now())
@@ -45,8 +46,12 @@ class Crawler:
 
     def get_external_links(self, excludeUrl):
         reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
-
-        for link in self.bsObj.findAll("a", href=reurl):
+        onionurl = re.compile("^(http|www)((?!" + excludeUrl + "\.onion).)*$")
+        if self.onion is False:
+            links = self.bsObj.findAll("a", href=reurl)
+        else:
+            links = self.bsObj.findAll("a", href=onionurl)
+        for link in links:
             url = q(link.attrs['href'], safe="/:")
             if url not in self.pages:
                 self.externalLinks.add(url)
@@ -91,8 +96,7 @@ class Crawler:
 
     def get_page_id(self):
         c = self.conn.cursor()
-        c.execute("SELECT id FROM Pages WHERE url=?",
-                  [self.current_page])
+        c.execute("SELECT id FROM Pages WHERE url=?", [self.current_page])
         pid = c.fetchone()[0]
         c.close()
         return pid
@@ -119,14 +123,12 @@ class Crawler:
                     else:
                         self.conn.close()
                         self.conn = sqlite3.connect('web.db')
-                        print(e)
                 self.insert_cache()
             except HTTPError:
                 pass
             except URLError:
                 pass
             except Exception as e:
-                print(e)
                 pass
 
 
@@ -141,23 +143,26 @@ def main():
 
     url = "http://www.google.com"
     proxy = ["localhost", 9150]
+    onion = False
 
     for o, a in opts:
         if o == "-u":
             url = a
         if o == "-p":
-            if a == "tor":
+            if a == "tor" or a == "onion":
                 # connect TOR
                 socks.set_default_proxy(socks.SOCKS5, proxy[0], proxy[1])
                 socket.socket = socks.socksocket
-                
+
                 def getaddrinfo(*args):
                     return [(socket.AF_INET, socket.SOCK_STREAM, 6, '',
                              (args[0], args[1]))]
 
                 socket.getaddrinfo = getaddrinfo
+            if a == "onion":
+                onion = True
 
-    Crawler(url).run()
+    Crawler(url, onion).run()
 
 
 if __name__ == "__main__":
