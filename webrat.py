@@ -17,13 +17,14 @@ import getopt
 
 
 class Crawler:
-    def __init__(self, page, onion):
+    def __init__(self, page, onion, internal):
         self.internalLinks = set()
         self.externalLinks = set()
         self.pages = set()
         self.bsObj = None
         self.html = None
         self.onion = onion
+        self.internal = internal
         self.current_page = page
         self.conn = sqlite3.connect('web.db')
         random.seed(datetime.datetime.now())
@@ -68,7 +69,7 @@ class Crawler:
         self.get_internal_links(self.current_page)
 
     def pop_page(self):
-        if len(self.externalLinks) != 0:
+        if len(self.externalLinks) != 0 and self.internal is not True:
             self.current_page = self.externalLinks.pop()
         elif len(self.internalLinks) != 0:
             self.current_page = self.internalLinks.pop()
@@ -114,7 +115,6 @@ class Crawler:
 
     def run(self):
         self.externalLinks.add(self.current_page)
-        self.internalLinks.add(self.current_page)
         while (self.next_page() is not None):
             try:
                 print(self.current_page)
@@ -139,7 +139,7 @@ class Crawler:
 def main():
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'u:p:h')
+        opts, args = getopt.getopt(sys.argv[1:], 'u:p:t:h')
     except getopt.GetoptError as err:
         print(str(err))
         # usage()
@@ -148,6 +148,7 @@ def main():
     url = "http://www.google.com"
     proxy = ["localhost", 9150]
     onion = False
+    internal = False
 
     for o, a in opts:
         if o == "-u":
@@ -165,8 +166,11 @@ def main():
                 socket.getaddrinfo = getaddrinfo
             if a == "onion":
                 onion = True
+        if o == "-t":
+            if a == "i":
+                internal = True
 
-    Crawler(url, onion).run()
+    Crawler(url, onion, internal).run()
 
 
 if __name__ == "__main__":
