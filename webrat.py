@@ -22,6 +22,7 @@ class Crawler:
         self.externalLinks = set()
         self.pages = set()
         self.bsObj = None
+        self.html = None
         self.current_page = page
         self.conn = sqlite3.connect('web.db')
         random.seed(datetime.datetime.now())
@@ -57,6 +58,7 @@ class Crawler:
                    "Accept": "text/html,application/xhtml+xml,application/xml;"
                              "q=0.9,image/webp,*/*;q=0.8"}
         html = session.get(self.current_page, headers=headers, timeout=30)
+        self.html = html
         self.bsObj = BeautifulSoup(html.text, "html.parser")
 
     def get_links(self):
@@ -75,17 +77,30 @@ class Crawler:
 
     def insert_data(self):
         c = self.conn.cursor()
-        data = (self.current_page, self.bsObj.head.title.get_text(),
-                str(self.bsObj.body))
-        c.execute('INSERT INTO web(url, title, body) VALUES (?,?,?)', data)
+        data = (self.current_page, self.bsObj.head.title.get_text())
+        c.execute('INSERT INTO Pages(url, title) VALUES (?,?)', data)
         self.conn.commit()
         c.close()
 
     def update_data(self):
         c = self.conn.cursor()
-        c.execute("UPDATE web SET title=?,body=? WHERE url=?",
-                  (self.bsObj.head.title.get_text(), str(self.bsObj.body),
-                   self.current_page))
+        c.execute("UPDATE Pages SET title=? WHERE url=?",
+                  (self.bsObj.head.title.get_text(), self.current_page))
+        self.conn.commit()
+        c.close()
+
+    def get_page_id(self):
+        c = self.conn.cursor()
+        c.execute("SELECT id FROM Pages WHERE url=?",
+                  [self.current_page])
+        pid = c.fetchone()[0]
+        c.close()
+        return pid
+
+    def insert_cache(self):
+        c = self.conn.cursor()
+        data = (self.get_page_id(), str(self.bsObj.html))
+        c.execute('INSERT INTO Caches(page_id, html) VALUES (?,?)', data)
         self.conn.commit()
         c.close()
 
@@ -102,8 +117,10 @@ class Crawler:
                     if 'UNIQUE' in str(e):
                         self.update_data()
                     else:
+                        self.conn.close()
                         self.conn = sqlite3.connect('web.db')
                         print(e)
+                self.insert_cache()
             except HTTPError:
                 pass
             except URLError:
@@ -124,7 +141,6 @@ def main():
 
     url = "http://www.google.com"
     proxy = ["localhost", 9150]
-    global socket
 
     for o, a in opts:
         if o == "-u":
