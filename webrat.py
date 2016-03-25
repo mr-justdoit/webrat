@@ -46,11 +46,7 @@ class Crawler:
 
     def get_external_links(self, excludeUrl):
         reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
-        onionurl = re.compile("^(http|www)((?!" + excludeUrl + "\.onion).)*$")
-        if self.onion is False:
-            links = self.bsObj.findAll("a", href=reurl)
-        else:
-            links = self.bsObj.findAll("a", href=onionurl)
+        links = self.bsObj.findAll("a", href=reurl)
         for link in links:
             url = q(link.attrs['href'], safe="/:")
             if url not in self.pages:
@@ -71,13 +67,21 @@ class Crawler:
         self.get_external_links(urlparse(self.current_page).netloc)
         self.get_internal_links(self.current_page)
 
-    def next_page(self):
+    def pop_page(self):
         if len(self.externalLinks) != 0:
             self.current_page = self.externalLinks.pop()
-            self.pages.add(self.current_page)
         elif len(self.internalLinks) != 0:
             self.current_page = self.internalLinks.pop()
-            self.pages.add(self.current_page)
+        return self.current_page
+
+    def next_page(self):
+        if self.onion:
+            while(".onion" not in self.pop_page()):
+                pass
+        else:
+            self.pop_page()
+
+        self.pages.add(self.current_page)
         return self.current_page
 
     def insert_data(self):
