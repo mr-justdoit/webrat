@@ -37,7 +37,7 @@ class Crawler:
         reurl = re.compile("^(\/|.*" + includeUrl + ")")
 
         for link in self.bsObj.findAll("a", href=reurl):
-            url = q(link.attrs['href'], safe="/:")
+            url = link.attrs['href']
             if url.startswith("/"):
                 the_link = includeUrl + url
             else:
@@ -49,7 +49,7 @@ class Crawler:
         reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
         links = self.bsObj.findAll("a", href=reurl)
         for link in links:
-            url = q(link.attrs['href'], safe="/:")
+            url = link.attrs['href']
             if url not in self.pages:
                 self.externalLinks.add(url)
 
