@@ -158,7 +158,7 @@ class Crawler:
                 pass
 
 
-def connect_tor(self):
+def connect_tor():
     # connect TOR
     socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
     socket.socket = socks.socksocket
