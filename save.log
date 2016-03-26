@@ -1,0 +1,37 @@
+externalLinks: !!set
+  http://www.google.co.jp/shopping?hl=ja&tab=wf&ei=Xy_2VvvUFuS3mAXY5bvIDw&ved=0EKkuCAwoDA: null
+  ? https://accounts.google.com/ServiceLogin?hl=ja&passive=true&continue=https://www.google.co.jp/%3Fgfe_rd%3Dcr%26ei%3DXi_2VpD_JK3K8geYyYTIDA%26gws_rd%3Dssl
+  : null
+  https://books.google.co.jp/bkshp?hl=ja&tab=wp&ei=Xy_2VvvUFuS3mAXY5bvIDw&ved=0EKkuCA4oDg: null
+  https://docs.google.com/document/?usp=docs_alc: null
+  https://hangouts.google.com/: null
+  https://maps.google.co.jp/maps?hl=ja&tab=wl: null
+  https://myaccount.google.com/?utm_source=OGB: null
+  https://myaccount.google.com/phone?pli=1: null
+  https://news.google.co.jp/nwshp?hl=ja&tab=wn&ei=Xy_2VvvUFuS3mAXY5bvIDw&ved=0EKkuCAUoBQ: null
+  https://photos.google.com/?tab=wq: null
+  https://play.google.com/?hl=ja&tab=w8: null
+  https://plus.google.com/?gpsrc=ogpy0&tab=wX: null
+  https://translate.google.co.jp/?hl=ja&tab=wT: null
+  https://www.blogger.com/?tab=wj: null
+  https://www.google.co.jp/imghp?hl=ja&tab=wi&ei=Xy_2VvvUFuS3mAXY5bvIDw&ved=0EKouCBQoAQ: null
+  https://www.google.co.jp/intl/ja/options/: null
+  https://www.google.co.jp/preferences?hl=ja: null
+  https://www.google.co.jp/preferences?hl=ja&fg=1: null
+  https://www.google.co.jp/webhp?hl=ja: null
+  https://www.google.co.jp/webhp?tab=ww&ei=Xy_2VvvUFuS3mAXY5bvIDw&ved=0EKkuCAEoAQ: null
+  https://www.youtube.com/?gl=JP: null
+internalLinks: !!set
+  http://www.google.com//support.google.com/websearch/?p=ws_results_help&hl=ja&fg=1: null
+  http://www.google.com//support.google.com/websearch/answer/186645?hl=ja: null
+  http://www.google.com//www.google.co.jp/intl/ja/about.html?fg=1: null
+  http://www.google.com//www.google.co.jp/intl/ja/ads/?fg=1: null
+  http://www.google.com//www.google.co.jp/intl/ja/policies/privacy/?fg=1: null
+  http://www.google.com//www.google.co.jp/intl/ja/policies/terms/?fg=1: null
+  http://www.google.com//www.google.co.jp/services/?fg=1: null
+  http://www.google.com/advanced_search?hl=ja&fg=1: null
+  http://www.google.com/history/optout?hl=ja&fg=1: null
+pages: !!set
+  http://www.google.com: null
+  https://drive.google.com/?tab=wo: null
+  https://mail.google.com/mail/?tab=wm: null

@@ -1,19 +1,16 @@
 #!/usr/bin/python
 # coding: utf-8
-from urllib.error import HTTPError
-from urllib.error import URLError
 from urllib.parse import urlparse
-from urllib.parse import quote_plus as q
 from bs4 import BeautifulSoup
 import re
-import datetime
-import random
 import socks
 import socket
 import requests
 import sqlite3
 import sys
 import getopt
+import yaml
+import datetime
 
 
 class Crawler:
@@ -27,7 +24,12 @@ class Crawler:
         self.internal = internal
         self.current_page = page
         self.conn = sqlite3.connect('web.db')
-        random.seed(datetime.datetime.now())
+        if page is None:
+            with open("save.log", 'r') as data:
+                data = yaml.load(data)
+            self.internalLinks = data["internalLinks"]
+            self.externalLinks = data["externalLinks"]
+            self.pages = data["pages"]
 
     def get_internal_links(self, includeUrl):
         scm = urlparse(includeUrl).scheme
@@ -113,6 +115,23 @@ class Crawler:
         self.conn.commit()
         c.close()
 
+    def save_log(self):
+        data = {"externalLinks": self.externalLinks,
+                "internalLinks": self.internalLinks,
+                "pages": self.pages}
+
+        with open("save.log", 'w') as yml_file:
+            yml_file.write(
+                yaml.dump(data,
+                          allow_unicode=True,
+                          default_flow_style=False))
+        yml_file.close()
+
+    def error_log(self, e):
+        with open("error.log", "a") as err_file:
+            err_file.write(str(e)+","+str(datetime.datetime.now())+"\n")
+        err_file.close()
+
     def run(self):
         self.externalLinks.add(self.current_page)
         while (self.next_page() is not None):
@@ -125,14 +144,15 @@ class Crawler:
                     if 'UNIQUE' in str(e):
                         self.update_data()
                     else:
+                        self.error_log(e)
                         self.conn.close()
                         self.conn = sqlite3.connect('web.db')
                 self.insert_cache()
-            except HTTPError:
-                pass
-            except URLError:
-                pass
+            except KeyboardInterrupt:
+                self.save_log()
+                exit(1)
             except Exception as e:
+                self.error_log(e)
                 pass
 
 
@@ -145,7 +165,7 @@ def main():
         # usage()
         sys.exit(2)
 
-    url = "http://www.google.com"
+    url = None
     proxy = ["localhost", 9150]
     onion = False
     internal = False
