@@ -1,0 +1,152 @@
+'NoneType' object has no attribute 'get_text',2016-03-26 15:53:52.090485
+'NoneType' object is not subscriptable,2016-03-26 15:53:52.091094
+'NoneType' object has no attribute 'title',2016-03-26 15:53:57.365181
+'NoneType' object is not subscriptable,2016-03-26 15:53:57.365729
+'NoneType' object has no attribute 'title',2016-03-26 15:54:00.072675
+'NoneType' object is not subscriptable,2016-03-26 15:54:00.073414
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.com,2016-03-26 16:16:01.292687
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.com,2016-03-26 16:16:01.302361
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.co.jp/intl/ja/options/,2016-03-26 16:16:01.899225
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.co.jp/intl/ja/options/,2016-03-26 16:16:01.911350
+'builtin_function_or_method' object has no attribute 'execute',https://mail.google.com/mail/?tab=wm,2016-03-26 16:16:03.144050
+'builtin_function_or_method' object has no attribute 'execute',https://mail.google.com/mail/?tab=wm,2016-03-26 16:16:03.152432
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.co.jp/shopping?hl=ja&tab=wf&ei=JDf2VpLVLOHHmAWEi4q4Aw&ved=0EKkuCAwoDA,2016-03-26 16:16:03.692684
+'NoneType' object is not subscriptable,http://www.google.co.jp/shopping?hl=ja&tab=wf&ei=JDf2VpLVLOHHmAWEi4q4Aw&ved=0EKkuCAwoDA,2016-03-26 16:16:03.693195
+'builtin_function_or_method' object has no attribute 'execute',http://www.blogger.com/?tab=fj,2016-03-26 16:16:06.195509
+'NoneType' object is not subscriptable,http://www.blogger.com/?tab=fj,2016-03-26 16:16:06.196014
+'builtin_function_or_method' object has no attribute 'execute',https://maps.google.co.jp/maps?hl=ja&tab=wl,2016-03-26 16:16:07.291699
+'NoneType' object is not subscriptable,https://maps.google.co.jp/maps?hl=ja&tab=wl,2016-03-26 16:16:07.292211
+'builtin_function_or_method' object has no attribute 'execute',https://books.google.co.jp/bkshp?hl=ja&tab=wp&ei=JDf2VpLVLOHHmAWEi4q4Aw&ved=0EKkuCA4oDg,2016-03-26 16:16:08.046634
+'NoneType' object is not subscriptable,https://books.google.co.jp/bkshp?hl=ja&tab=wp&ei=JDf2VpLVLOHHmAWEi4q4Aw&ved=0EKkuCA4oDg,2016-03-26 16:16:08.047154
+'builtin_function_or_method' object has no attribute 'execute',https://mail.google.com/mail/?tab=fm,2016-03-26 16:16:09.213812
+'NoneType' object is not subscriptable,https://mail.google.com/mail/?tab=fm,2016-03-26 16:16:09.214327
+'builtin_function_or_method' object has no attribute 'execute',https://support.google.com/accounts/?p=securesignin&hl=en,2016-03-26 16:16:10.106924
+'NoneType' object is not subscriptable,https://support.google.com/accounts/?p=securesignin&hl=en,2016-03-26 16:16:10.107438
+'NoneType' object has no attribute 'title',https://accounts.google.com/TOS?loc=JP&hl=ja&privacy=true,2016-03-26 16:16:11.296183
+'NoneType' object is not subscriptable,https://accounts.google.com/TOS?loc=JP&hl=ja&privacy=true,2016-03-26 16:16:11.296708
+'builtin_function_or_method' object has no attribute 'execute',https://accounts.google.com/ServiceLogin?hl=ja&passive=true&continue=https://www.google.co.jp/%3Fgfe_rd%3Dcr%26ei%3DJDf2VraAAsL98wfI14i4Bw%26gws_rd%3Dssl,2016-03-26 16:16:11.968129
+'NoneType' object is not subscriptable,https://accounts.google.com/ServiceLogin?hl=ja&passive=true&continue=https://www.google.co.jp/%3Fgfe_rd%3Dcr%26ei%3DJDf2VraAAsL98wfI14i4Bw%26gws_rd%3Dssl,2016-03-26 16:16:11.968654
+'builtin_function_or_method' object has no attribute 'execute',https://support.google.com/accounts/answer/112783?hl=jp,2016-03-26 16:16:13.020165
+'NoneType' object is not subscriptable,https://support.google.com/accounts/answer/112783?hl=jp,2016-03-26 16:16:13.020696
+'builtin_function_or_method' object has no attribute 'execute',http://wallet.google.com/files/privacy.html?hl=ja,2016-03-26 16:16:13.699336
+'NoneType' object is not subscriptable,http://wallet.google.com/files/privacy.html?hl=ja,2016-03-26 16:16:13.700221
+'builtin_function_or_method' object has no attribute 'execute',http://support.google.com/plus/bin/static.py?hl=jp&page=guide.cs&guide=1257347,2016-03-26 16:16:14.756476
+'NoneType' object is not subscriptable,http://support.google.com/plus/bin/static.py?hl=jp&page=guide.cs&guide=1257347,2016-03-26 16:16:14.757011
+'builtin_function_or_method' object has no attribute 'execute',http://www.panoramio.com/,2016-03-26 16:16:15.506453
+'NoneType' object is not subscriptable,http://www.panoramio.com/,2016-03-26 16:16:15.506974
+'builtin_function_or_method' object has no attribute 'execute',http://www.dataliberation.org/,2016-03-26 16:16:16.662583
+'NoneType' object is not subscriptable,http://www.dataliberation.org/,2016-03-26 16:16:16.663093
+'NoneType' object has no attribute 'get_text',https://myaccount.google.com/privacycheckup/1?hl=ja,2016-03-26 16:16:17.516653
+'NoneType' object is not subscriptable,https://myaccount.google.com/privacycheckup/1?hl=ja,2016-03-26 16:16:17.517327
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.co.jp/imghp?hl=ja&tab=wi&ei=JDf2VpLVLOHHmAWEi4q4Aw&ved=0EKouCBQoAQ,2016-03-26 16:16:18.243238
+'NoneType' object is not subscriptable,https://www.google.co.jp/imghp?hl=ja&tab=wi&ei=JDf2VpLVLOHHmAWEi4q4Aw&ved=0EKouCBQoAQ,2016-03-26 16:16:18.243729
+'builtin_function_or_method' object has no attribute 'execute',https://support.google.com/faqs/answer/2987537?hl=ja,2016-03-26 16:16:18.838550
+'NoneType' object is not subscriptable,https://support.google.com/faqs/answer/2987537?hl=ja,2016-03-26 16:16:18.839055
+'builtin_function_or_method' object has no attribute 'execute',https://www.youtube.com/feed/history?hl=ja,2016-03-26 16:16:19.490370
+'NoneType' object is not subscriptable,https://www.youtube.com/feed/history?hl=ja,2016-03-26 16:16:19.491025
+'NoneType' object has no attribute 'get_text',https://www.google.com/settings/storage,2016-03-26 16:16:21.217991
+'NoneType' object is not subscriptable,https://www.google.com/settings/storage,2016-03-26 16:16:21.218549
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/settings/general-light,2016-03-26 16:16:22.313114
+'NoneType' object is not subscriptable,https://www.google.com/settings/general-light,2016-03-26 16:16:22.313785
+'builtin_function_or_method' object has no attribute 'execute',https://drive.google.com/?tab=fo,2016-03-26 16:16:22.998081
+'NoneType' object is not subscriptable,https://drive.google.com/?tab=fo,2016-03-26 16:16:22.998745
+'builtin_function_or_method' object has no attribute 'execute',https://drive.google.com/?tab=wo,2016-03-26 16:16:23.575026
+'builtin_function_or_method' object has no attribute 'execute',https://drive.google.com/?tab=wo,2016-03-26 16:16:23.576198
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/calendar?tab=ic,2016-03-26 16:16:25.347503
+'NoneType' object is not subscriptable,https://www.google.com/calendar?tab=ic,2016-03-26 16:16:25.348227
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.co.jp/webhp?tab=pw&ei=Kzf2VsvsG8GyjQOD2YeQDQ&ved=0EKkuCAQoAQ,2016-03-26 16:16:26.055457
+'NoneType' object is not subscriptable,https://www.google.co.jp/webhp?tab=pw&ei=Kzf2VsvsG8GyjQOD2YeQDQ&ved=0EKkuCAQoAQ,2016-03-26 16:16:26.056152
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/intx/ja_jp/enterprise/apps/business/index.html?utm_source=google_products&utm_medium=et&utm_campaign=smb_apps,2016-03-26 16:16:27.976053
+'NoneType' object is not subscriptable,https://www.google.com/intx/ja_jp/enterprise/apps/business/index.html?utm_source=google_products&utm_medium=et&utm_campaign=smb_apps,2016-03-26 16:16:27.976746
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/calendar?tab=fc,2016-03-26 16:16:29.972598
+'NoneType' object is not subscriptable,https://www.google.com/calendar?tab=fc,2016-03-26 16:16:29.973151
+'NoneType' object has no attribute 'get_text',https://security.google.com/settings/security/secureaccount,2016-03-26 16:16:30.815537
+'NoneType' object is not subscriptable,https://security.google.com/settings/security/secureaccount,2016-03-26 16:16:30.816104
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.com/support/accounts?hl=ja,2016-03-26 16:16:32.368446
+'NoneType' object is not subscriptable,http://www.google.com/support/accounts?hl=ja,2016-03-26 16:16:32.369024
+'builtin_function_or_method' object has no attribute 'execute',https://hangouts.google.com/,2016-03-26 16:16:33.332120
+'NoneType' object is not subscriptable,https://hangouts.google.com/,2016-03-26 16:16:33.332642
+'builtin_function_or_method' object has no attribute 'execute',https://plus.google.com/?utm_source=embedded&utm_medium=googleabout&utm_campaign=link,2016-03-26 16:16:35.902763
+'NoneType' object is not subscriptable,https://plus.google.com/?utm_source=embedded&utm_medium=googleabout&utm_campaign=link,2016-03-26 16:16:35.903307
+'NoneType' object has no attribute 'title',https://www.google.com/policies/,2016-03-26 16:16:36.423721
+'NoneType' object is not subscriptable,https://www.google.com/policies/,2016-03-26 16:16:36.424293
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/contacts/?hl=ja&tab=pC,2016-03-26 16:16:37.104558
+'NoneType' object is not subscriptable,https://www.google.com/contacts/?hl=ja&tab=pC,2016-03-26 16:16:37.105167
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.co.jp/preferences?hl=ja,2016-03-26 16:16:38.356033
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.co.jp/preferences?hl=ja,2016-03-26 16:16:38.383553
+'builtin_function_or_method' object has no attribute 'execute',https://myaccount.google.com/signin?continue=https%3A%2F%2Fmyaccount.google.com%2Fpreferences%23localization,2016-03-26 16:16:40.383067
+'NoneType' object is not subscriptable,https://myaccount.google.com/signin?continue=https%3A%2F%2Fmyaccount.google.com%2Fpreferences%23localization,2016-03-26 16:16:40.383583
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/work/apps/terms/education_privacy.html,2016-03-26 16:16:41.786329
+'NoneType' object is not subscriptable,https://www.google.com/work/apps/terms/education_privacy.html,2016-03-26 16:16:41.786852
+'builtin_function_or_method' object has no attribute 'execute',https://news.google.co.jp/nwshp?hl=ja&ei=ODf2VoK6KYHj0ASfp6HIDQ&ved=0EKkuCAgoBQ,2016-03-26 16:16:43.702275
+'NoneType' object is not subscriptable,https://news.google.co.jp/nwshp?hl=ja&ei=ODf2VoK6KYHj0ASfp6HIDQ&ved=0EKkuCAgoBQ,2016-03-26 16:16:43.702803
+'builtin_function_or_method' object has no attribute 'execute',http://www.cinematoday.jp/page/N0081457,2016-03-26 16:16:44.138125
+'NoneType' object is not subscriptable,http://www.cinematoday.jp/page/N0081457,2016-03-26 16:16:44.138607
+'builtin_function_or_method' object has no attribute 'execute',http://www.sponichi.co.jp/baseball/news/2016/03/26/kiji/K20160326012286690.html,2016-03-26 16:16:44.619212
+'NoneType' object is not subscriptable,http://www.sponichi.co.jp/baseball/news/2016/03/26/kiji/K20160326012286690.html,2016-03-26 16:16:44.619735
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.co.jp/shopping?hl=ja&ei=RDf2VunKIqPpmQWsiryICA&ved=0EKkuCA8oDA,2016-03-26 16:16:45.383570
+'NoneType' object is not subscriptable,http://www.google.co.jp/shopping?hl=ja&ei=RDf2VunKIqPpmQWsiryICA&ved=0EKkuCA8oDA,2016-03-26 16:16:45.384089
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.co.jp/shopping?hl=en&ei=Rjf2VqTNIsfVuQS-7JzYDQ&ved=0EKkuCA4oCw,2016-03-26 16:16:46.098646
+'NoneType' object is not subscriptable,http://www.google.co.jp/shopping?hl=en&ei=Rjf2VqTNIsfVuQS-7JzYDQ&ved=0EKkuCA4oCw,2016-03-26 16:16:46.099173
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/calendar,2016-03-26 16:16:47.902465
+'NoneType' object is not subscriptable,https://www.google.com/calendar,2016-03-26 16:16:47.902989
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.co.jp/intl/ja_jp/services/,2016-03-26 16:16:48.169021
+'NoneType' object is not subscriptable,http://www.google.co.jp/intl/ja_jp/services/,2016-03-26 16:16:48.169486
+'builtin_function_or_method' object has no attribute 'execute',https://www.blogger.com/?tab=pj,2016-03-26 16:16:50.211237
+'NoneType' object is not subscriptable,https://www.blogger.com/?tab=pj,2016-03-26 16:16:50.211750
+'builtin_function_or_method' object has no attribute 'execute',https://maps.google.co.jp/maps?hl=ja,2016-03-26 16:16:51.368443
+'NoneType' object is not subscriptable,https://maps.google.co.jp/maps?hl=ja,2016-03-26 16:16:51.368973
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/settings/ads?hl=ja,2016-03-26 16:16:55.117146
+'NoneType' object is not subscriptable,https://www.google.com/settings/ads?hl=ja,2016-03-26 16:16:55.117665
+'builtin_function_or_method' object has no attribute 'execute',https://www.okinawatimes.co.jp/article.php?id=160473,2016-03-26 16:16:56.393056
+'NoneType' object is not subscriptable,https://www.okinawatimes.co.jp/article.php?id=160473,2016-03-26 16:16:56.393598
+'builtin_function_or_method' object has no attribute 'execute',https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dfc&hl=en&service=cl&scc=1,2016-03-26 16:16:57.335058
+'NoneType' object is not subscriptable,https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dfc&hl=en&service=cl&scc=1,2016-03-26 16:16:57.335983
+'builtin_function_or_method' object has no attribute 'execute',http://www.daily-tohoku.co.jp/,2016-03-26 16:16:58.275642
+'NoneType' object is not subscriptable,http://www.daily-tohoku.co.jp/,2016-03-26 16:16:58.276200
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.co.jp/shopping?hl=ja&ei=Qjf2VufxEdL-0gS5y4XwAw&ved=0EKkuCA8oDA,2016-03-26 16:16:59.027292
+'NoneType' object is not subscriptable,http://www.google.co.jp/shopping?hl=ja&ei=Qjf2VufxEdL-0gS5y4XwAw&ved=0EKkuCA8oDA,2016-03-26 16:16:59.027850
+'NoneType' object has no attribute 'title',http://feature.daily-tohoku.co.jp/web2/extra/2016/03/extra20160326002.pdf,2016-03-26 16:17:59.257648
+'NoneType' object is not subscriptable,http://feature.daily-tohoku.co.jp/web2/extra/2016/03/extra20160326002.pdf,2016-03-26 16:17:59.258222
+'builtin_function_or_method' object has no attribute 'execute',http://iphone-mania.jp/news-108183/,2016-03-26 16:18:00.177540
+'NoneType' object is not subscriptable,http://iphone-mania.jp/news-108183/,2016-03-26 16:18:00.178079
+'builtin_function_or_method' object has no attribute 'execute',https://www.bloomberg.co.jp/news/articles/2016-03-25/O4M6WVSYF01S01,2016-03-26 16:18:01.682477
+'NoneType' object is not subscriptable,https://www.bloomberg.co.jp/news/articles/2016-03-25/O4M6WVSYF01S01,2016-03-26 16:18:01.683000
+'builtin_function_or_method' object has no attribute 'execute',https://translate.google.co.jp/?hl=ja,2016-03-26 16:18:02.371947
+'NoneType' object is not subscriptable,https://translate.google.co.jp/?hl=ja,2016-03-26 16:18:02.372472
+'builtin_function_or_method' object has no attribute 'execute',http://news.biglobe.ne.jp/domestic/0326/ym_160326_6640091270.html,2016-03-26 16:18:02.982090
+'NoneType' object is not subscriptable,http://news.biglobe.ne.jp/domestic/0326/ym_160326_6640091270.html,2016-03-26 16:18:02.982636
+'builtin_function_or_method' object has no attribute 'execute',http://www.nagasaki-np.co.jp/,2016-03-26 16:18:03.243457
+'NoneType' object is not subscriptable,http://www.nagasaki-np.co.jp/,2016-03-26 16:18:03.244313
+'builtin_function_or_method' object has no attribute 'execute',http://www.kyodonews.jp/,2016-03-26 16:18:03.562969
+'NoneType' object is not subscriptable,http://www.kyodonews.jp/,2016-03-26 16:18:03.563528
+'builtin_function_or_method' object has no attribute 'execute',http://news.google.co.jp/nwshp?hl=ja&tab=fn&ei=Jzf2VtT1COWimwWVt5lY&ved=0EKkuCAgoBQ,2016-03-26 16:18:05.024831
+'NoneType' object is not subscriptable,http://news.google.co.jp/nwshp?hl=ja&tab=fn&ei=Jzf2VtT1COWimwWVt5lY&ved=0EKkuCAgoBQ,2016-03-26 16:18:05.025408
+'builtin_function_or_method' object has no attribute 'execute',http://press.okinawatimes.co.jp/cad/2014/09/09/%E3%80%90%E5%BE%8C%E6%8F%B4%E7%94%B3%E8%AB%8B%E3%80%91%E3%81%AF%E3%81%93%E3%81%A1%E3%82%89%E3%81%8B%E3%82%89/,2016-03-26 16:18:05.869619
+'NoneType' object is not subscriptable,http://press.okinawatimes.co.jp/cad/2014/09/09/%E3%80%90%E5%BE%8C%E6%8F%B4%E7%94%B3%E8%AB%8B%E3%80%91%E3%81%AF%E3%81%93%E3%81%A1%E3%82%89%E3%81%8B%E3%82%89/,2016-03-26 16:18:05.870222
+'builtin_function_or_method' object has no attribute 'execute',https://plus.google.com/?gpsrc=ogpy0&tab=wX,2016-03-26 16:18:07.702169
+'NoneType' object is not subscriptable,https://plus.google.com/?gpsrc=ogpy0&tab=wX,2016-03-26 16:18:07.702849
+'builtin_function_or_method' object has no attribute 'execute',https://www.google.com/contacts/?hl=ja&tab=fC,2016-03-26 16:18:08.236092
+'NoneType' object is not subscriptable,https://www.google.com/contacts/?hl=ja&tab=fC,2016-03-26 16:18:08.236634
+'builtin_function_or_method' object has no attribute 'execute',http://feature.daily-tohoku.co.jp/web2/sports-top.html,2016-03-26 16:18:08.571233
+'NoneType' object is not subscriptable,http://feature.daily-tohoku.co.jp/web2/sports-top.html,2016-03-26 16:18:08.571826
+'builtin_function_or_method' object has no attribute 'execute',http://www.google.com/intl/ja_jp/about/,2016-03-26 16:18:08.884171
+'NoneType' object is not subscriptable,http://www.google.com/intl/ja_jp/about/,2016-03-26 16:18:08.884707
+'builtin_function_or_method' object has no attribute 'execute',https://myaccount.google.com/signin?continue=https%3A%2F%2Fmyaccount.google.com%2Fpreferences%23storage,2016-03-26 16:18:10.153650
+'NoneType' object is not subscriptable,https://myaccount.google.com/signin?continue=https%3A%2F%2Fmyaccount.google.com%2Fpreferences%23storage,2016-03-26 16:18:10.154161
+'builtin_function_or_method' object has no attribute 'execute',http://www.bloomberg.com/company/technology/?utm_source=bloomberg-menu&utm_medium=japan,2016-03-26 16:18:11.548167
+'NoneType' object is not subscriptable,http://www.bloomberg.com/company/technology/?utm_source=bloomberg-menu&utm_medium=japan,2016-03-26 16:18:11.548694
+'builtin_function_or_method' object has no attribute 'execute',https://news.google.co.jp/nwshp?hl=ja&ei=Wjf2VvmUJKXDmwW8ipLgCA&ved=0EKkuCAgoBQ,2016-03-26 16:18:13.477311
+'NoneType' object is not subscriptable,https://news.google.co.jp/nwshp?hl=ja&ei=Wjf2VvmUJKXDmwW8ipLgCA&ved=0EKkuCAgoBQ,2016-03-26 16:18:13.478177
+'NoneType' object has no attribute 'title',http://web-jp.ad-v.jp/adam/ep/click/pnj.okinawatimes.inside2/Rectangle?cat=pnj.okinawatimes.inside2,2016-03-26 16:22:38.322397
+'NoneType' object is not subscriptable,http://web-jp.ad-v.jp/adam/ep/click/pnj.okinawatimes.inside2/Rectangle?cat=pnj.okinawatimes.inside2,2016-03-26 16:22:38.323374
+UNIQUE constraint failed: Caches.html,https://t.co/ptjUaoTXIc,2016-03-26 16:22:47.428753
+UNIQUE constraint failed: Caches.html,https://t.co/y34F6UP0xy,2016-03-26 16:22:48.319808
+'NoneType' object has no attribute 'title',http://mainichi.jp/articles/20160326/dde/041/020/012000c,2016-03-26 16:22:48.640236
+'NoneType' object is not subscriptable,http://mainichi.jp/articles/20160326/dde/041/020/012000c,2016-03-26 16:22:48.641556
+'NoneType' object has no attribute 'get_text',http://digital.asahi.com/special/tenjinviewer/?iref=com_gnavi,2016-03-26 16:22:52.229542
+'NoneType' object is not subscriptable,http://digital.asahi.com/special/tenjinviewer/?iref=com_gnavi,2016-03-26 16:22:52.231123
+UNIQUE constraint failed: Caches.html,http://wwwa.pandanet.co.jp/a/kumanichi/,2016-03-26 16:22:57.633169
+'NoneType' object has no attribute 'title',http://vsc.send.microad.jp/delivery/ck.php?n=a63f8686&cb=INSERT_RANDOM_NUMBER_HERE,2016-03-26 16:23:04.782784
+'NoneType' object is not subscriptable,http://vsc.send.microad.jp/delivery/ck.php?n=a63f8686&cb=INSERT_RANDOM_NUMBER_HERE,2016-03-26 16:23:04.784462
+UNIQUE constraint failed: Caches.html,https://t.co/LE3wsB1jIs,2016-03-26 16:23:06.362699

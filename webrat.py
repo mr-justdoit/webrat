@@ -30,6 +30,9 @@ class Crawler:
             self.internalLinks = data["internalLinks"]
             self.externalLinks = data["externalLinks"]
             self.pages = data["pages"]
+            self.onion = self.onion if self.onion else data["onion"]
+            self.internal = self.internal if self.internal else data[
+                "internal"]
 
     def get_internal_links(self, includeUrl):
         scm = urlparse(includeUrl).scheme
@@ -40,10 +43,7 @@ class Crawler:
 
         for link in self.bsObj.findAll("a", href=reurl):
             url = link.attrs['href']
-            if url.startswith("/"):
-                the_link = includeUrl + url
-            else:
-                the_link = url
+            the_link = includeUrl + url if url.startswith("/") else url
             if the_link not in self.pages:
                 self.internalLinks.add(the_link)
 
@@ -79,7 +79,7 @@ class Crawler:
 
     def next_page(self):
         if self.onion:
-            while(".onion" not in self.pop_page()):
+            while (".onion" not in self.pop_page()):
                 pass
         else:
             self.pop_page()
@@ -87,19 +87,21 @@ class Crawler:
         self.pages.add(self.current_page)
         return self.current_page
 
-    def insert_data(self):
+    def send_query_to_db(self, query, data):
         c = self.conn.cursor()
-        data = (self.current_page, self.bsObj.head.title.get_text())
-        c.execute('INSERT INTO Pages(url, title) VALUES (?,?)', data)
+        c.execute(query, data)
         self.conn.commit()
         c.close()
 
+    def insert_data(self):
+        query = 'INSERT INTO Pages(url, title) VALUES (?,?)'
+        data = (self.current_page, self.bsObj.head.title.get_text())
+        self.send_query_to_db(query, data)
+
     def update_data(self):
-        c = self.conn.cursor()
-        c.execute("UPDATE Pages SET title=? WHERE url=?",
-                  (self.bsObj.head.title.get_text(), self.current_page))
-        self.conn.commit()
-        c.close()
+        query = 'UPDATE Pages SET title=? WHERE url=?'
+        data = (self.bsObj.head.title.get_text(), self.current_page)
+        self.send_query_to_db(query, data)
 
     def get_page_id(self):
         c = self.conn.cursor()
@@ -109,27 +111,27 @@ class Crawler:
         return pid
 
     def insert_cache(self):
-        c = self.conn.cursor()
+        query = 'INSERT INTO Caches(page_id, html) VALUES (?,?)'
         data = (self.get_page_id(), str(self.bsObj.html))
-        c.execute('INSERT INTO Caches(page_id, html) VALUES (?,?)', data)
-        self.conn.commit()
-        c.close()
+        self.send_query_to_db(query, data)
 
     def save_log(self):
         data = {"externalLinks": self.externalLinks,
                 "internalLinks": self.internalLinks,
-                "pages": self.pages}
+                "pages": self.pages,
+                "onion": self.onion,
+                "internal": self.internal}
 
         with open("save.log", 'w') as yml_file:
-            yml_file.write(
-                yaml.dump(data,
-                          allow_unicode=True,
-                          default_flow_style=False))
+            yml_file.write(yaml.dump(data,
+                                     allow_unicode=True,
+                                     default_flow_style=False))
         yml_file.close()
 
     def error_log(self, e):
         with open("error.log", "a") as err_file:
-            err_file.write(str(e)+","+str(datetime.datetime.now())+"\n")
+            err_file.write(str(e) + "," + self.current_page + "," + str(
+                datetime.datetime.now()) + "\n")
         err_file.close()
 
     def run(self):
@@ -156,6 +158,18 @@ class Crawler:
                 pass
 
 
+def connect_tor(self):
+    # connect TOR
+    socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
+    socket.socket = socks.socksocket
+
+    def getaddrinfo(*args):
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, '',
+                 (args[0], args[1]))]
+
+    socket.getaddrinfo = getaddrinfo
+
+
 def main():
 
     try:
@@ -166,7 +180,6 @@ def main():
         sys.exit(2)
 
     url = None
-    proxy = ["localhost", 9150]
     onion = False
     internal = False
 
@@ -175,15 +188,7 @@ def main():
             url = a
         if o == "-p":
             if a == "tor" or a == "onion":
-                # connect TOR
-                socks.set_default_proxy(socks.SOCKS5, proxy[0], proxy[1])
-                socket.socket = socks.socksocket
-
-                def getaddrinfo(*args):
-                    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '',
-                             (args[0], args[1]))]
-
-                socket.getaddrinfo = getaddrinfo
+                connect_tor()
             if a == "onion":
                 onion = True
         if o == "-t":
