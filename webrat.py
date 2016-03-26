@@ -19,25 +19,26 @@ class Crawler:
         self.externalLinks = set()
         self.pages = set()
         self.bsObj = None
-        self.html = None
         self.onion = onion
         self.internal = internal
         self.current_page = page
         self.conn = sqlite3.connect('web.db')
         if page is None:
-            with open("save.log", 'r') as data:
-                data = yaml.load(data)
-            self.internalLinks = data["internalLinks"]
-            self.externalLinks = data["externalLinks"]
-            self.pages = data["pages"]
-            self.onion = self.onion if self.onion else data["onion"]
-            self.internal = self.internal if self.internal else data[
-                "internal"]
+            self.load_data()
+
+    def load_data(self):
+        with open("save.yml", 'r') as data:
+            data = yaml.load(data)
+        self.current_page = data["current_page"]
+        self.internalLinks = data["internalLinks"]
+        self.externalLinks = data["externalLinks"]
+        self.pages = data["pages"]
+        self.onion = self.onion if self.onion else data["onion"]
+        self.internal = self.internal if self.internal else data["internal"]
 
     def get_internal_links(self, includeUrl):
-        scm = urlparse(includeUrl).scheme
-        loc = urlparse(includeUrl).netloc
-        includeUrl = scm + "://" + loc
+        url = urlparse(includeUrl)
+        includeUrl = url.scheme + "://" + url.netloc
 
         reurl = re.compile("^(\/|.*" + includeUrl + ")")
 
@@ -57,12 +58,11 @@ class Crawler:
 
     def build_bsObj(self):
         session = requests.Session()
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; rv:38.0)"
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; rv:38.0) "
                                  "Gecko/20100101 Firefox/38.0",
                    "Accept": "text/html,application/xhtml+xml,application/xml;"
                              "q=0.9,image/webp,*/*;q=0.8"}
         html = session.get(self.current_page, headers=headers, timeout=30)
-        self.html = html
         self.bsObj = BeautifulSoup(html.text, "html.parser")
 
     def get_links(self):
@@ -75,6 +75,8 @@ class Crawler:
             self.current_page = self.externalLinks.pop()
         elif len(self.internalLinks) != 0:
             self.current_page = self.internalLinks.pop()
+        else:
+            self.current_page = None
         return self.current_page
 
     def next_page(self):
@@ -84,7 +86,9 @@ class Crawler:
         else:
             self.pop_page()
 
-        self.pages.add(self.current_page)
+        if self.current_page is not None:
+            self.pages.add(self.current_page)
+
         return self.current_page
 
     def send_query_to_db(self, query, data):
@@ -116,16 +120,18 @@ class Crawler:
         self.send_query_to_db(query, data)
 
     def save_log(self):
-        data = {"externalLinks": self.externalLinks,
+        data = {"current_page": self.current_page,
+                "externalLinks": self.externalLinks,
                 "internalLinks": self.internalLinks,
                 "pages": self.pages,
                 "onion": self.onion,
                 "internal": self.internal}
 
-        with open("save.log", 'w') as yml_file:
-            yml_file.write(yaml.dump(data,
-                                     allow_unicode=True,
-                                     default_flow_style=False))
+        with open("save.yml", 'w') as yml_file:
+            yml_file.write(
+                yaml.dump(data,
+                          allow_unicode=True,
+                          default_flow_style=False))
         yml_file.close()
 
     def error_log(self, e):
@@ -155,6 +161,8 @@ class Crawler:
                 exit(1)
             except Exception as e:
                 self.error_log(e)
+                pass
+            finally:
                 pass
 
 
