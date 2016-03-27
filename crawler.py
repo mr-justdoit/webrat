@@ -5,6 +5,7 @@ import requests
 import sqlite3
 import yaml
 import datetime
+import logging
 
 
 class Crawler:
@@ -39,11 +40,13 @@ class Crawler:
         includeUrl = urlparse(includeUrl).scheme + "://" + urlparse(
             includeUrl).netloc
 
-        reurl = re.compile("^(\/|.*" + includeUrl + ")")
+        reurl = re.compile("^(\/|.*"+includeUrl+")")
 
         for link in self.bsObj.findAll("a", href=reurl):
-            if link.attrs['href'].startswith("/"):
-                the_link = includeUrl + link.attrs['href']
+            if(link.attrs['href'].startswith("//")):
+                the_link = link.attrs['href']
+            elif(link.attrs['href'].startswith("/")):
+                the_link = includeUrl+link.attrs['href']
             else:
                 the_link = link.attrs['href']
 
@@ -51,7 +54,7 @@ class Crawler:
                 self.internalLinks.add(the_link)
 
     def get_external_links(self, excludeUrl):
-        reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
+        reurl = re.compile("^(http|https|www)((?!" + excludeUrl + ").)*$")
         links = self.bsObj.findAll("a", href=reurl)
         for link in links:
             if link.attrs['href'] not in self.pages:
@@ -65,7 +68,8 @@ class Crawler:
 
     def get_links(self):
         self.build_bsObj()
-        self.get_external_links(urlparse(self.current_page).netloc)
+        if not self.internal:
+            self.get_external_links(urlparse(self.current_page).netloc)
         self.get_internal_links(self.current_page)
 
     def pop_page(self):
@@ -94,10 +98,7 @@ class Crawler:
             c = self.conn.cursor()
             c.execute(query, data)
         except Exception as e:
-            if 'UNIQUE' in str(e):
-                pass
-            else:
-                self.error_log(e)
+            self.error_log(e)
         finally:
             if "SELECT" in query:
                 pid = c.fetchone()[0]
@@ -107,13 +108,8 @@ class Crawler:
             c.close()
 
     def insert_data(self):
-        query = 'INSERT INTO Pages(url, title) VALUES (?,?)'
-        title = self.bsObj.head.title
-        if title is None:
-            title = "No title"
-        else:
-            title = self.bsObj.head.title.get_text()
-        data = (self.current_page, title)
+        query = 'INSERT INTO Pages(url) VALUES (?)'
+        data = [self.current_page]
         self.send_query_to_db(query, data)
 
     def get_page_id(self):
@@ -142,13 +138,12 @@ class Crawler:
         yml_file.close()
 
     def error_log(self, e):
-        with open(self.config["error_file"], "a") as err_file:
-            err_file.write(str(e) + "\t" + self.current_page + "\t" + str(
-                datetime.datetime.now()) + "\n")
-        err_file.close()
+        logging.basicConfig(
+            filename=self.config["error_file"], level=logging.DEBUG)
+        logging.debug(str(e))
 
     def run(self):
-        self.externalLinks.add(self.current_page)
+        self.get_links()
         while (self.next_page() is not None):
             try:
                 print(self.current_page)
