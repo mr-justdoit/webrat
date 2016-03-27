@@ -151,14 +151,17 @@ class Crawler:
                         self.update_data()
                     else:
                         self.error_log(e)
-                        self.conn.close()
-                        self.conn = sqlite3.connect(self.config["database"])
-                self.insert_cache()
+                try:
+                    self.insert_cache()
+                except Exception as e:
+                    if 'UNIQUE' in str(e):
+                        pass
+                    else:
+                        self.error_log(e)
             except KeyboardInterrupt:
                 self.save_log()
                 exit(1)
             except Exception as e:
                 self.error_log(e)
-                pass
             finally:
                 pass
