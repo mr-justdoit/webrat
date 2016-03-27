@@ -9,6 +9,7 @@ import datetime
 
 class Crawler:
     def __init__(self, page, onion, internal):
+        self.load_config()
         self.internalLinks = set()
         self.externalLinks = set()
         self.pages = set()
@@ -16,12 +17,16 @@ class Crawler:
         self.onion = onion
         self.internal = internal
         self.current_page = page
-        self.conn = sqlite3.connect('web.db')
+        self.conn = sqlite3.connect(self.config["database"])
         if page is None:
             self.load_data()
 
+    def load_config(self):
+        with open("config.yml", 'r') as data:
+            self.config = yaml.load(data)
+
     def load_data(self):
-        with open("save.yml", 'r') as data:
+        with open(self.config["save_file"], 'r') as data:
             data = yaml.load(data)
         self.current_page = data["current_page"]
         self.internalLinks = data["internalLinks"]
@@ -49,16 +54,12 @@ class Crawler:
         reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
         links = self.bsObj.findAll("a", href=reurl)
         for link in links:
-            url = link.attrs['href']
-            if url not in self.pages:
-                self.externalLinks.add(url)
+            if link.attrs['href'] not in self.pages:
+                self.externalLinks.add(link.attrs['href'])
 
     def build_bsObj(self):
         session = requests.Session()
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; rv:38.0) "
-                                 "Gecko/20100101 Firefox/38.0",
-                   "Accept": "text/html,application/xhtml+xml,application/xml;"
-                             "q=0.9,image/webp,*/*;q=0.8"}
+        headers = self.config["headers"]
         html = session.get(self.current_page, headers=headers, timeout=30)
         self.bsObj = BeautifulSoup(html.text, "html.parser")
 
@@ -113,7 +114,8 @@ class Crawler:
 
     def insert_cache(self):
         query = 'INSERT INTO Caches(page_id, html) VALUES (?,?)'
-        data = (self.get_page_id(), str(self.bsObj.html))
+        last = "<!-- "+self.current_page+" -->"
+        data = (self.get_page_id(), str(self.bsObj)+last)
         self.send_query_to_db(query, data)
 
     def save_log(self):
@@ -124,20 +126,20 @@ class Crawler:
                 "onion": self.onion,
                 "internal": self.internal}
 
-        with open("save.yml", 'w') as yml_file:
+        with open(self.config["save_file"], 'w') as yml_file:
             yml_file.write(yaml.dump(data,
                                      allow_unicode=True,
                                      default_flow_style=False))
         yml_file.close()
 
     def error_log(self, e):
-        with open("error.log", "a") as err_file:
+        with open(self.config["error_file"], "a") as err_file:
             err_file.write(str(e) + "," + self.current_page + "," + str(
                 datetime.datetime.now()) + "\n")
         err_file.close()
 
     def run(self):
-        self.get_links()
+        self.externalLinks.add(self.current_page)
         while (self.next_page() is not None):
             try:
                 print(self.current_page)
@@ -150,7 +152,7 @@ class Crawler:
                     else:
                         self.error_log(e)
                         self.conn.close()
-                        self.conn = sqlite3.connect('web.db')
+                        self.conn = sqlite3.connect(self.config["database"])
                 self.insert_cache()
             except KeyboardInterrupt:
                 self.save_log()
