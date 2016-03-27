@@ -90,27 +90,36 @@ class Crawler:
         return self.current_page
 
     def send_query_to_db(self, query, data):
-        c = self.conn.cursor()
-        c.execute(query, data)
-        self.conn.commit()
-        c.close()
+        try:
+            c = self.conn.cursor()
+            c.execute(query, data)
+        except Exception as e:
+            if 'UNIQUE' in str(e):
+                pass
+            else:
+                self.error_log(e)
+        finally:
+            if "SELECT" in query:
+                pid = c.fetchone()[0]
+                c.close()
+                return pid
+            self.conn.commit()
+            c.close()
 
     def insert_data(self):
         query = 'INSERT INTO Pages(url, title) VALUES (?,?)'
-        data = (self.current_page, self.bsObj.head.title.get_text())
-        self.send_query_to_db(query, data)
-
-    def update_data(self):
-        query = 'UPDATE Pages SET title=? WHERE url=?'
-        data = (self.bsObj.head.title.get_text(), self.current_page)
+        title = self.bsObj.head.title
+        if title is None:
+            title = "No title"
+        else:
+            title = self.bsObj.head.title.get_text()
+        data = (self.current_page, title)
         self.send_query_to_db(query, data)
 
     def get_page_id(self):
-        c = self.conn.cursor()
-        c.execute("SELECT id FROM Pages WHERE url=?", [self.current_page])
-        pid = c.fetchone()[0]
-        c.close()
-        return pid
+        query = "SELECT id FROM Pages WHERE url=?"
+        data = [self.current_page]
+        return self.send_query_to_db(query, data)
 
     def insert_cache(self):
         query = 'INSERT INTO Caches(page_id, html) VALUES (?,?)'
@@ -134,7 +143,7 @@ class Crawler:
 
     def error_log(self, e):
         with open(self.config["error_file"], "a") as err_file:
-            err_file.write(str(e) + "," + self.current_page + "," + str(
+            err_file.write(str(e) + "\t" + self.current_page + "\t" + str(
                 datetime.datetime.now()) + "\n")
         err_file.close()
 
@@ -144,20 +153,8 @@ class Crawler:
             try:
                 print(self.current_page)
                 self.get_links()
-                try:
-                    self.insert_data()
-                except Exception as e:
-                    if 'UNIQUE' in str(e):
-                        self.update_data()
-                    else:
-                        self.error_log(e)
-                try:
-                    self.insert_cache()
-                except Exception as e:
-                    if 'UNIQUE' in str(e):
-                        pass
-                    else:
-                        self.error_log(e)
+                self.insert_data()
+                self.insert_cache()
             except KeyboardInterrupt:
                 self.save_log()
                 exit(1)
