@@ -4,7 +4,6 @@ import re
 import requests
 import sqlite3
 import yaml
-import datetime
 import logging
 
 
@@ -54,7 +53,7 @@ class Crawler:
                 self.internalLinks.add(the_link)
 
     def get_external_links(self, excludeUrl):
-        reurl = re.compile("^(http|https|www)((?!" + excludeUrl + ").)*$")
+        reurl = re.compile("^(http|www)((?!" + excludeUrl + ").)*$")
         links = self.bsObj.findAll("a", href=reurl)
         for link in links:
             if link.attrs['href'] not in self.pages:
