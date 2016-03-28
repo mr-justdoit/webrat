@@ -1,5 +1,5 @@
 *.log
 *.db
-save.yml
+*save.yml
 *~
-__pycache__
+*__pycache__

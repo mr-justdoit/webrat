@@ -107,17 +107,17 @@ class Crawler:
             c.close()
 
     def insert_data(self):
-        query = 'INSERT INTO Pages(url) VALUES (?)'
+        query = 'INSERT INTO Page(url) VALUES (?)'
         data = [self.current_page]
         self.send_query_to_db(query, data)
 
     def get_page_id(self):
-        query = "SELECT id FROM Pages WHERE url=?"
+        query = "SELECT id FROM Page WHERE url=?"
         data = [self.current_page]
         return self.send_query_to_db(query, data)
 
     def insert_cache(self):
-        query = 'INSERT INTO Caches(page_id, html) VALUES (?,?)'
+        query = 'INSERT INTO Content(page_id, html) VALUES (?,?)'
         last = "<!-- "+self.current_page+" -->"
         data = (self.get_page_id(), str(self.bsObj)+last)
         self.send_query_to_db(query, data)

@@ -2,6 +2,7 @@ autopep8==1.2.2
 beautifulsoup4==4.4.1
 click==6.3
 colorama==0.3.7
+Django==1.9.4
 flake8==2.5.4
 html2text==2016.1.8
 htmldom==2.0
@@ -27,6 +28,7 @@ rope==0.10.3
 shodan==1.5.0
 simplejson==3.8.2
 six==1.10.0
+SQLAlchemy==1.0.12
 team==1.0
 tweepy==3.5.0
 yapf==0.6.3
