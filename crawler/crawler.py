@@ -1,8 +1,10 @@
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models import Page, Content, Base
 import re
 import requests
-import sqlite3
 import yaml
 import logging
 
@@ -17,7 +19,10 @@ class Crawler:
         self.onion = onion
         self.internal = internal
         self.current_page = page
-        self.conn = sqlite3.connect(self.config["database"])
+        self.engine = create_engine(self.config["database"])
+        Base.metadata.bind = self.engine
+        self.DBSession = sessionmaker(bind=self.engine)
+        self.session = self.DBSession()
         if page is None:
             self.load_data()
 
@@ -36,16 +41,17 @@ class Crawler:
         self.internal = self.internal if self.internal else data["internal"]
 
     def get_internal_links(self, includeUrl):
+        # TODO: FIXTHISCODE
         includeUrl = urlparse(includeUrl).scheme + "://" + urlparse(
             includeUrl).netloc
 
-        reurl = re.compile("^(\/|.*"+includeUrl+")")
+        reurl = re.compile("^(\/|.*" + includeUrl + ")")
 
         for link in self.bsObj.findAll("a", href=reurl):
-            if(link.attrs['href'].startswith("//")):
+            if (link.attrs['href'].startswith("//")):
                 the_link = link.attrs['href']
-            elif(link.attrs['href'].startswith("/")):
-                the_link = includeUrl+link.attrs['href']
+            elif (link.attrs['href'].startswith("/")):
+                the_link = includeUrl + link.attrs['href']
             else:
                 the_link = link.attrs['href']
 
@@ -92,35 +98,19 @@ class Crawler:
 
         return self.current_page
 
-    def send_query_to_db(self, query, data):
-        try:
-            c = self.conn.cursor()
-            c.execute(query, data)
-        except Exception as e:
-            self.error_log(e)
-        finally:
-            if "SELECT" in query:
-                pid = c.fetchone()[0]
-                c.close()
-                return pid
-            self.conn.commit()
-            c.close()
-
     def insert_data(self):
-        query = 'INSERT INTO Page(url) VALUES (?)'
-        data = [self.current_page]
-        self.send_query_to_db(query, data)
+        self.session.add(Page(url=self.current_page))
+        self.session.commit()
 
     def get_page_id(self):
-        query = "SELECT id FROM Page WHERE url=?"
-        data = [self.current_page]
-        return self.send_query_to_db(query, data)
+        return self.session.query(Page).filter(Page.url ==
+                                               self.current_page).first().id
 
     def insert_cache(self):
-        query = 'INSERT INTO Content(page_id, html) VALUES (?,?)'
-        last = "<!-- "+self.current_page+" -->"
-        data = (self.get_page_id(), str(self.bsObj)+last)
-        self.send_query_to_db(query, data)
+        last = "<!-- " + self.current_page + " -->"
+        self.session.add(Content(page_id=self.get_page_id(),
+                                 html=str(self.bsObj) + last))
+        self.session.commit()
 
     def save_log(self):
         data = {"current_page": self.current_page,
@@ -137,8 +127,8 @@ class Crawler:
         yml_file.close()
 
     def error_log(self, e):
-        logging.basicConfig(
-            filename=self.config["error_file"], level=logging.DEBUG)
+        logging.basicConfig(filename=self.config["error_file"],
+                            level=logging.DEBUG)
         logging.debug(str(e))
 
     def run(self):

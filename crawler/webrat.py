@@ -4,6 +4,7 @@ import socks
 import socket
 import sys
 import getopt
+import os
 from crawler import Crawler
 
 
@@ -48,6 +49,7 @@ def main():
 
 
 if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webrat.settings")
     main()
 
 # test crawling
