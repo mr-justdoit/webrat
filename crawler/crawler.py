@@ -98,7 +98,6 @@ class Crawler:
         return self.current_page
 
     def insert_data(self):
-        print(self.current_page)
         self.session.add(Page(url=self.current_page))
         self.session.commit()
 
