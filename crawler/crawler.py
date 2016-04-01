@@ -41,19 +41,18 @@ class Crawler:
         self.internal = self.internal if self.internal else data["internal"]
 
     def get_internal_links(self, includeUrl):
-        # TODO: FIXTHISCODE
         includeUrl = urlparse(includeUrl).scheme + "://" + urlparse(
             includeUrl).netloc
 
-        reurl = re.compile("^(\/|.*" + includeUrl + ")")
+        reurl = re.compile("^(\/|^(?!.*(http|https)).*|.*" + includeUrl + ")")
 
         for link in self.bsObj.findAll("a", href=reurl):
-            if (link.attrs['href'].startswith("//")):
-                the_link = link.attrs['href']
-            elif (link.attrs['href'].startswith("/")):
+            if (link.attrs['href'].startswith("/")):
                 the_link = includeUrl + link.attrs['href']
-            else:
+            elif (link.attrs['href'].startswith("http")):
                 the_link = link.attrs['href']
+            else:
+                the_link = includeUrl + "/" + link.attrs['href']
 
             if the_link not in self.pages:
                 self.internalLinks.add(the_link)
@@ -99,6 +98,7 @@ class Crawler:
         return self.current_page
 
     def insert_data(self):
+        print(self.current_page)
         self.session.add(Page(url=self.current_page))
         self.session.commit()
 
@@ -132,7 +132,9 @@ class Crawler:
         logging.debug(str(e))
 
     def run(self):
-        self.get_links()
+        self.externalLinks.add(self.current_page)
+        self.internalLinks.add(self.current_page)
+
         while (self.next_page() is not None):
             try:
                 print(self.current_page)
