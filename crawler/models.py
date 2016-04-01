@@ -8,13 +8,13 @@ Base = declarative_base()
 class Page(Base):
     __tablename__ = 'page'
     id = Column(Integer, primary_key=True)
-    url = Column(String)
+    url = Column(String, unique=True)
 
 class Content(Base):
     __tablename__ = 'content'
     id = Column(Integer, primary_key=True)
     page_id = Column(Integer, ForeignKey('page.id'))
-    html = Column(String)
+    html = Column(String, unique=True)
     page = relationship(Page)
 
 

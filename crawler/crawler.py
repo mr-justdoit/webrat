@@ -1,3 +1,5 @@
+# TODO: Write Test Code
+
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
@@ -99,7 +101,6 @@ class Crawler:
 
     def insert_data(self):
         self.session.add(Page(url=self.current_page))
-        self.session.commit()
 
     def get_page_id(self):
         return self.session.query(Page).filter(Page.url ==
@@ -109,7 +110,6 @@ class Crawler:
         last = "<!-- " + self.current_page + " -->"
         self.session.add(Content(page_id=self.get_page_id(),
                                  html=str(self.bsObj) + last))
-        self.session.commit()
 
     def save_log(self):
         data = {"current_page": self.current_page,
@@ -135,15 +135,32 @@ class Crawler:
         self.internalLinks.add(self.current_page)
 
         while (self.next_page() is not None):
+            print(self.current_page)
             try:
-                print(self.current_page)
                 self.get_links()
-                self.insert_data()
-                self.insert_cache()
             except KeyboardInterrupt:
                 self.save_log()
                 exit(1)
             except Exception as e:
                 self.error_log(e)
-            finally:
-                pass
+
+            try:
+                self.insert_data()
+                self.session.commit()
+            except KeyboardInterrupt:
+                self.save_log()
+                exit(1)
+            except Exception as e:
+                self.session.rollback()
+                self.error_log(e)
+
+            try:
+                self.insert_cache()
+                self.session.commit()
+            except KeyboardInterrupt:
+                self.save_log()
+                exit(1)
+            except Exception as e:
+                self.session.rollback()
+                self.error_log(e)
+
