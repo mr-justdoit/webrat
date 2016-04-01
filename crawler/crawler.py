@@ -130,37 +130,30 @@ class Crawler:
                             level=logging.DEBUG)
         logging.debug(str(e))
 
+    def do(self, method_name):
+        try:
+            if method_name == "get_links":
+                print(self.current_page)
+                self.get_links()
+            elif method_name == "insert_data":
+                self.insert_data()
+                self.session.commit()
+            elif method_name == "insert_cache":
+                self.insert_cache()
+                self.session.commit()
+        except KeyboardInterrupt:
+            self.save_log()
+            exit(1)
+        except Exception as e:
+            self.error_log(e)
+            if "insert" in method_name:
+                self.session.rollback()
+
     def run(self):
         self.externalLinks.add(self.current_page)
         self.internalLinks.add(self.current_page)
 
         while (self.next_page() is not None):
-            print(self.current_page)
-            try:
-                self.get_links()
-            except KeyboardInterrupt:
-                self.save_log()
-                exit(1)
-            except Exception as e:
-                self.error_log(e)
-
-            try:
-                self.insert_data()
-                self.session.commit()
-            except KeyboardInterrupt:
-                self.save_log()
-                exit(1)
-            except Exception as e:
-                self.session.rollback()
-                self.error_log(e)
-
-            try:
-                self.insert_cache()
-                self.session.commit()
-            except KeyboardInterrupt:
-                self.save_log()
-                exit(1)
-            except Exception as e:
-                self.session.rollback()
-                self.error_log(e)
-
+            self.do("get_links")
+            self.do("insert_data")
+            self.do("insert_cache")
